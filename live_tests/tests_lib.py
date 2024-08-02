@@ -38,6 +38,7 @@ def publish(client,report):
             if NB_TESTS == COUNTER:
                 with open('lib/runtime_pid.bin', 'r') as outfile:
                     local_data = json.loads(outfile.read())
+                    print()
                     os.kill(local_data['pid'],1)
                 with open('manifest.json', 'r') as outfile:
                     meta_data = json.loads(outfile.read())
