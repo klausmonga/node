@@ -38,7 +38,7 @@ def publish(client,report):
             print("counter:: " + str(COUNTER))
             print("nb_tests:: " + str(NB_TESTS))
             if NB_TESTS == COUNTER:
-                print("IN.....")
+                print("IN..XXXXXXX...")
                 with open('lib/runtime_pid.bin', 'r') as outfile:
                     local_data = json.loads(outfile.read())
                     print("killing runtime "+str(local_data['pid']))
