@@ -6,6 +6,7 @@ from paho.mqtt import client as mqtt_client
 import time
 import git  # pip install gitpython
 from git import RemoteProgress
+from lib.signal_msg import send_report
 
 broker = '127.0.0.1'
 port = 1883
@@ -48,6 +49,11 @@ def subscribe(client: mqtt_client):
                 #start test
                 os.system("python3 "+"staging/staging-"+str(remote_data['code_version'])+"/live_tests/tests.py")
                 print("end signal!!!")
+            else:
+                send_report({
+                    "status": 2,
+                    "message": "THE LIVE CODE IS UPDATED !!!"
+                })
             # os.kill(json.loads(outfile.read())['pid'],1)
 
 
