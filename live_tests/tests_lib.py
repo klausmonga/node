@@ -14,10 +14,10 @@ topic = "iot/signalisations/staging"
 client_id = f'publish-{random.randint(0, 1000)}'
 # username = 'emqx'
 # password = 'public'
-NB_TESTS = 0
-COUNTER = 0
-def init_test(nb_test):
-    NB_TESTS = nb_test
+FLAG = False
+
+def init_test(status):
+    FLAG = status
 
 def connect_mqtt() -> mqtt_client:
     def on_connect(client, userdata, flags, rc):
@@ -35,9 +35,8 @@ def connect_mqtt() -> mqtt_client:
 def publish(client,report):
         if report['status'] == 1:
             COUNTER =+ 1
-            print("counter:: " + str(COUNTER))
-            print("nb_tests:: " + str(NB_TESTS))
-            if NB_TESTS == COUNTER:
+            print("FLAG:: " + str(FLAG))
+            if FLAG:
                 print("IN..XXXXXXX...")
                 with open('lib/runtime_pid.bin', 'r') as outfile:
                     local_data = json.loads(outfile.read())
