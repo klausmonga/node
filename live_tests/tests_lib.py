@@ -35,10 +35,13 @@ def connect_mqtt() -> mqtt_client:
 def publish(client,report):
         if report['status'] == 1:
             COUNTER =+ 1
+            print("counter:: " + str(COUNTER))
+            print("nb_tests:: " + str(NB_TESTS))
             if NB_TESTS == COUNTER:
+                print("IN.....")
                 with open('lib/runtime_pid.bin', 'r') as outfile:
                     local_data = json.loads(outfile.read())
-                    print()
+                    print("killing runtime "+str(local_data['pid']))
                     os.kill(local_data['pid'],1)
                 with open('manifest.json', 'r') as outfile:
                     meta_data = json.loads(outfile.read())
