@@ -3,7 +3,9 @@ import os
 import random
 import json
 from paho.mqtt import client as mqtt_client
-
+import time
+import git  # pip install gitpython
+from git import RemoteProgress
 
 broker = '127.0.0.1'
 port = 1883
@@ -27,18 +29,27 @@ def connect_mqtt() -> mqtt_client:
     client.connect(broker, port)
     return client
 
+class CloneProgress(RemoteProgress):
+    def update(self, op_code, cur_count, max_count=None, message=''):
+        if message:
+            print(message)
 
 def subscribe(client: mqtt_client):
     def on_message(client, userdata, msg):
         print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
         with open('lib/runtime_pid.bin', 'r') as outfile:
             local_data = json.loads(outfile.read())
-            remote_data = json.loads(msg.payload.decode())
+            remote_data = json.loads(str(msg.payload.decode()))
             if local_data['code_version'] < remote_data['code_version']:
             # start git pull
-                os.system("git clone "+remote_data['code_url']+" test/")
-            os.kill(json.loads(outfile.read())['pid'],1)
-            pass
+                git.Repo.clone_from(remote_data['code_url'], 'staging/test-'+str(local_data['code_version'])+"/",
+                                branch='main', progress=CloneProgress())
+                print('Cloned!')
+                #start test
+                os.system("python3 "+"staging/test-"+str(local_data['code_version'])+"/live_tests/tests.py")
+                print("end signal!!!")
+            # os.kill(json.loads(outfile.read())['pid'],1)
+
 
     client.subscribe(topic)
     client.on_message = on_message

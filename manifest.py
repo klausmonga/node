@@ -8,7 +8,7 @@ import time
 def Onstart():
     b = 0
     while 1:
-        print(b)
+        # print(b)
         time.sleep(1)
         random.random()
         b = random.randint(0, 50)
@@ -18,10 +18,12 @@ def signalisations():
     os.system("python3 /home/klaus/PycharmProjects/node/lib/signalisation.py")
 def Oncreate():
     with open('lib/runtime_pid.bin', 'r') as outfile:
-        local_data = json.loads(outfile.read())
+        try:
+            local_data = json.loads(outfile.read())if outfile.read() else {'code_version': 0, 'pid': 0}
+        except:
+            local_data = {'code_version': 0, 'pid': 0}
     with open('lib/runtime_pid.bin', 'w') as outfile:
         json.dump({"pid": os.getpid(), "code_version": local_data['code_version']}, outfile)
-
 
     Onstart()
 
