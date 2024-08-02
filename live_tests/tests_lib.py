@@ -34,9 +34,8 @@ def connect_mqtt() -> mqtt_client:
 # mosquitto_pub -h 127.0.0.1 -t iot/signalisations -m '{"code_version":2, "code_url": "git@github.com:klausmonga/node.git"}'
 def publish(client,report):
         if report['status'] == 1:
-            COUNTER =+ 1
-            print("FLAG:: " + str(FLAG))
-            if FLAG:
+            print("FLAG:: " + str(report['flag']))
+            if report['flag']:
                 print("IN..XXXXXXX...")
                 with open('lib/runtime_pid.bin', 'r') as outfile:
                     local_data = json.loads(outfile.read())

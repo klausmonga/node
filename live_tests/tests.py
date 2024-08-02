@@ -5,22 +5,21 @@ from live_tests.tests_lib import init_test
 
 
 def test_1():
-    send_report({'status':1,'test_name':'test001','message':'error ...'})
+    send_report({'status':1,'test_name':'test001','message':'error ...', 'flag':False})
     return True
 
 def test_2():
-    send_report({'status':1,'test_name':'test002','message':'ok ...'})
+    send_report({'status':1,'test_name':'test002','message':'ok ...', 'flag':False})
     return True
 def test_3():
-    send_report({'status':1,'test_name':'test003','message':'ok ...'})
+    send_report({'status':1,'test_name':'test003','message':'ok ...', 'flag':False})
     return True
 def test_4():
-    send_report({'status':1,'test_name':'test004','message':'tty/usb0 error ...'})
+    send_report({'status':1,'test_name':'test004','message':'tty/usb0 error ...', 'flag': True})
     return True
 if __name__ == '__main__':
-    init_test(
-    test_1() and
-    test_2() and
-    test_3() and
-    test_4()
-    )
+    if test_1():
+        if test_2():
+            if test_3():
+                if test_4():
+                    print("DONE TEST !!!")
