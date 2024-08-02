@@ -42,11 +42,11 @@ def subscribe(client: mqtt_client):
             remote_data = json.loads(str(msg.payload.decode()))
             if local_data['code_version'] < remote_data['code_version']:
             # start git pull
-                git.Repo.clone_from(remote_data['code_url'], 'staging/test-'+str(local_data['code_version'])+"/",
+                git.Repo.clone_from(remote_data['code_url'], 'staging/staging-'+str(remote_data['code_version'])+"/",
                                 branch='main', progress=CloneProgress())
                 print('Cloned!')
                 #start test
-                os.system("python3 "+"staging/test-"+str(local_data['code_version'])+"/live_tests/tests.py")
+                os.system("python3 "+"staging/staging-"+str(remote_data['code_version'])+"/live_tests/tests.py")
                 print("end signal!!!")
             # os.kill(json.loads(outfile.read())['pid'],1)
 

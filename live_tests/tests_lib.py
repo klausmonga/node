@@ -31,15 +31,20 @@ def connect_mqtt() -> mqtt_client:
     client.on_connect = on_connect
     client.connect(broker, port)
     return client
-
+# mosquitto_pub -h 127.0.0.1 -t iot/signalisations -m '{"code_version":2, "code_url": "git@github.com:klausmonga/node.git"}'
 def publish(client,report):
-        if json.loads(report)['status'] == 1:
+        if report['status'] == 1:
             COUNTER =+ 1
             if NB_TESTS == COUNTER:
                 with open('lib/runtime_pid.bin', 'r') as outfile:
                     local_data = json.loads(outfile.read())
                     os.kill(local_data['pid'],1)
-        result = client.publish(topic, report)
+                with open('manifest.json', 'r') as outfile:
+                    meta_data = json.loads(outfile.read())
+                with open('lib/runtime_pid.bin', 'w') as outfile:
+                    json.dump({"pid": 0, "code_version": meta_data['code_version']}, outfile)
+
+        result = client.publish(topic, json.dumps(report))
         # result: [0, 1]
         status = result[0]
         if status == 0:
