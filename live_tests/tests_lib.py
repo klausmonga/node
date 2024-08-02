@@ -42,7 +42,7 @@ def publish(client,report):
                     print("killing runtime "+str(local_data['pid']))
                     os.kill(local_data['pid'],1)
                 with open('manifest.json', 'r') as outfile:
-                    meta_data = json.loads(outfile.read())
+                    meta_data = json.loads(str(outfile.read()))
                 with open('lib/runtime_pid.bin', 'w') as outfile:
                     json.dump({"pid": 0, "code_version": meta_data['code_version']}, outfile)
 
