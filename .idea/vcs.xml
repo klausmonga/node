@@ -2,6 +2,20 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/app/app-3" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/app/live" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/app/live-old-10" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/app/live-old-3" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/app/live-old-4" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/app/live-old-5" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/app/live-old-6" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/app/live-old-7" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/app/live-old-8" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/app/live-old-9" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/app/staging-1" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/app/staging_app_3" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/app/staging_app_4" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/app/staging_app_5" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/staging/staging-0" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/staging/staging-1" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/staging/test-0" vcs="Git" />

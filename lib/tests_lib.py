@@ -1,15 +1,18 @@
 # python 3.11
 import os
+import sys
+import multiprocessing
 import random
 import json
 from paho.mqtt import client as mqtt_client
+import run
 import time
 import git  # pip install gitpython
 from git import RemoteProgress
 
 broker = '127.0.0.1'
 port = 1883
-topic = "iot/signalisations/staging"
+topic = "iot/signalisations/app"
 # Generate a Client ID with the subscribe prefix.
 client_id = f'publish-{random.randint(0, 1000)}'
 # username = 'emqx'
@@ -31,6 +34,8 @@ def connect_mqtt() -> mqtt_client:
     client.on_connect = on_connect
     client.connect(broker, port)
     return client
+def reload_runtime():
+    os.system("python3 run.py")
 # mosquitto_pub -h 127.0.0.1 -t iot/signalisations -m '{"code_version":2, "code_url": "git@github.com:klausmonga/node.git"}'
 def publish(client,report):
         if report['status'] == 1:
@@ -41,11 +46,10 @@ def publish(client,report):
                     local_data = json.loads(outfile.read())
                     print("killing runtime "+str(local_data['pid']))
                     os.kill(local_data['pid'],1)
-                with open('manifest.json', 'r') as outfile:
-                    meta_data = json.loads(str(outfile.read()))
-                with open('lib/runtime_pid.bin', 'w') as outfile:
-                    json.dump({"pid": 0, "code_version": meta_data['code_version']}, outfile)
-
+                os.system("mv app/live app/live-old-"+sys.argv[1])
+                os.system("mv app/staging_app_"+sys.argv[1]+" app/live")
+                runtime = multiprocessing.Process(name='runtime', target=reload_runtime)
+                runtime.start()
         result = client.publish(topic, json.dumps(report))
         # result: [0, 1]
         status = result[0]

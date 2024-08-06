@@ -38,16 +38,16 @@ class CloneProgress(RemoteProgress):
 def subscribe(client: mqtt_client):
     def on_message(client, userdata, msg):
         print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
-        with open('lib/runtime_pid.bin', 'r') as outfile:
+        with open('app/live/manifest.json', 'r') as outfile:
             local_data = json.loads(outfile.read())
             remote_data = json.loads(str(msg.payload.decode()))
             if local_data['code_version'] < remote_data['code_version']:
             # start git pull
-                git.Repo.clone_from(remote_data['code_url'], 'staging/staging-'+str(remote_data['code_version'])+"/",
+                git.Repo.clone_from(remote_data['code_url'], 'app/staging_app_'+str(remote_data['code_version'])+"/",
                                 branch='main', progress=CloneProgress())
                 print('Cloned!')
                 #start test
-                os.system("python3 "+"staging/staging-"+str(remote_data['code_version'])+"/live_tests/tests.py")
+                os.system("python3 "+"app/staging_app_"+str(remote_data['code_version'])+"/live_tests/tests.py "+str(remote_data['code_version']))
                 print("end signal!!!")
             else:
                 send_report({
@@ -61,11 +61,8 @@ def subscribe(client: mqtt_client):
     client.on_message = on_message
 
 
-def run():
+def run_signalisations():
     client = connect_mqtt()
     subscribe(client)
     client.loop_forever()
 
-
-if __name__ == '__main__':
-    run()
