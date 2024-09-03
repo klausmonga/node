@@ -10,6 +10,7 @@ from git import RemoteProgress
 broker = '127.0.0.1'
 port = 1883
 topic = "iot/signalisations/app"
+topic_report = "iot/signalisations/report"
 # Generate a Client ID with the subscribe prefix.
 client_id = f'publish-{random.randint(0, 1000)}'
 # username = 'emqx'
@@ -32,7 +33,7 @@ def connect_mqtt() -> mqtt_client:
 # mosquitto_pub -h 127.0.0.1 -t iot/signalisations -m '{"code_version":2, "code_url": "git@github.com:klausmonga/node.git"}'
 def publish(client,report):
 
-        result = client.publish(topic, json.dumps(report))
+        result = client.publish(topic_report, json.dumps(report))
         # result: [0, 1]
         status = result[0]
         if status == 0:

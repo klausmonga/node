@@ -12,7 +12,7 @@ from git import RemoteProgress
 
 broker = '127.0.0.1'
 port = 1883
-topic = "iot/signalisations/app"
+topic = "iot/signalisations/report"
 # Generate a Client ID with the subscribe prefix.
 client_id = f'publish-{random.randint(0, 1000)}'
 # username = 'emqx'
